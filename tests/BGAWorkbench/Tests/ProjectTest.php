@@ -18,15 +18,13 @@ class ProjectTest extends TestCase
     protected function setUp()
     {
         $this->project = new Project(
-            new \SplFileInfo(realpath(__DIR__ . '/../../..')),
-            'battleforhill',
-            []
+            new \SplFileInfo(realpath(__DIR__ . '/../../../resources/example-project')),
+            'battleforhill'
         );
     }
 
     public function testBuildInputPaths()
     {
-        // TODO: Need a test project
         assertThat(
             $this->project->getBuildInputPaths(),
             containsInAnyOrder(
@@ -107,11 +105,19 @@ class ProjectTest extends TestCase
 
     public function testAbsoluteToProjectRelativeFile()
     {
-        $fullPath = join(DIRECTORY_SEPARATOR, [$this->project->getDirectory()->getPathname(), 'img', 'cards.png']);
-        $versionFile = new \SplFileInfo($fullPath);
+        $fullPath = join(
+            DIRECTORY_SEPARATOR,
+            [$this->project->getDirectory()->getPathname(), 'img', 'game_box.png']
+        );
+        $boxFile = new \SplFileInfo($fullPath);
         assertThat(
-            $this->project->absoluteToProjectRelativeFile($versionFile),
-            equalTo(new SplFileInfo($fullPath, 'img', 'img' . DIRECTORY_SEPARATOR . 'cards.png'))
+            $this->project->absoluteToProjectRelativeFile($boxFile),
+            equalTo(
+                new SplFileInfo(
+                    $fullPath,
+                    'img',
+                    'img' . DIRECTORY_SEPARATOR . 'game_box.png')
+            )
         );
     }
 

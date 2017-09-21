@@ -7,4 +7,3 @@ $vendorDir = __DIR__ . '/../vendor';
 
 require_once($vendorDir . '/autoload.php');
 require_once($vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php');
-require_once(__DIR__ . '/../src/BGAWorkbench/Test/HamcrestMatchers/functions.php');

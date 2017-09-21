@@ -77,10 +77,11 @@ visitor:
 ## TODO
 
  - Set up Travis project
+ - Attempt PHP 5.6 compat?
  - When using the watch command - a changed file during the initial deploy won't redeploy
  - SFTP disconnects after a while - should be intelligent enough to reconnect
  - Output is pretty rough for build command and its variants (--deploy and --watch)
- - In future use https://github.com/krakjoe/pthreads to speed up deploys
  - add bgawb to code sharing wiki doc
  - Tests!!!
  - find proper ext deps to put in composer (by trying on a fresh install and checking /etc/install.sh)
+ - In future use https://github.com/krakjoe/pthreads to speed up deploys
