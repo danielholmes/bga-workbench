@@ -76,7 +76,8 @@ visitor:
 
 ## TODO
 
- - Set up Travis project
+ - Better documentation
+ - A command to create a bgaproject file
  - Attempt PHP 5.6 compat?
  - When using the watch command - a changed file during the initial deploy won't redeploy
  - SFTP disconnects after a while - should be intelligent enough to reconnect
