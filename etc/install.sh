@@ -28,8 +28,5 @@ chmod 755 $COMPOSER_INSTALLER
 $COMPOSER_INSTALLER
 mv composer.phar /usr/local/bin/composer
 
-# Git
-apt-get install -y git
-
 # Install composer deps
 composer install -d $PROJECT_DIR

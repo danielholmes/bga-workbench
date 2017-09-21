@@ -16,7 +16,8 @@
       "BGAWorkbench\\": "src/BGAWorkbench"
     },
     "files": [
-      "src/BGAWorkbench/Test/HamcrestMatchers/functions.php"
+      "src/BGAWorkbench/Test/HamcrestMatchers/hasEntries.php",
+      "src/BGAWorkbench/Test/HamcrestMatchers/hasKeys.php"
     ]
   },
   "bin": ["bin/bgawb"],

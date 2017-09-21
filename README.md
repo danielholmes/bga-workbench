@@ -76,12 +76,11 @@ visitor:
 
 ## TODO
 
+ - Set up Travis project
  - When using the watch command - a changed file during the initial deploy won't redeploy
  - SFTP disconnects after a while - should be intelligent enough to reconnect
  - Output is pretty rough for build command and its variants (--deploy and --watch)
  - In future use https://github.com/krakjoe/pthreads to speed up deploys
- - work on separating BGAWorkbench
  - add bgawb to code sharing wiki doc
- - js linting/hint
- - options for re-implementations (sector 219 and other)
+ - Tests!!!
  - find proper ext deps to put in composer (by trying on a fresh install and checking /etc/install.sh)
