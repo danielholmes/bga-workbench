@@ -1,0 +1,5 @@
+{OVERALL_GAME_HEADER}
+
+<div>My Game</div>
+
+{OVERALL_GAME_FOOTER}
