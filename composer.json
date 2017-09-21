@@ -1,0 +1,49 @@
+{
+  "name": "dhau/bga-workbench",
+  "version": "0.0.1",
+  "type": "library",
+  "description": "BoardGameArena Workbench",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Holmes",
+      "email": "daniel@danielholmes.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "BGAWorkbench\\": "src/BGAWorkbench"
+    },
+    "files": [
+      "src/BGAWorkbench/Test/HamcrestMatchers/functions.php"
+    ]
+  },
+  "bin": ["bin/bgawb"],
+  "require": {
+    "php": ">=7.0.8",
+    "ext-pdo_mysql": "*",
+    "lstrojny/functional-php": "1.6.0",
+    "classpreloader/classpreloader": "^3.1.0",
+    "classpreloader/console": "^2.0.0",
+    "jasonlewis/resource-watcher": "1.2.0",
+    "symfony/console": "^3.3.8",
+    "symfony/config": "^3.3.8",
+    "symfony/process": "^3.3.8",
+    "symfony/finder": "^3.3.8",
+    "symfony/yaml": "^3.3.8",
+    "phpseclib/phpseclib": "2.0.6",
+    "nette/reflection": "^2.4.2",
+    "fzaninotto/faker": "^1.7.1",
+    "doctrine/dbal": "^2.5.12",
+    "phpoption/phpoption": "1.5.0",
+    "hamcrest/hamcrest-php": "^2.0.0",
+    "squizlabs/php_codesniffer": "^3.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.2.3"
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
+}
