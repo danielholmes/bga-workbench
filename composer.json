@@ -1,6 +1,6 @@
 {
   "name": "dholmes/bga-workbench",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "library",
   "description": "BoardGameArena Workbench",
   "minimum-stability": "stable",
@@ -33,11 +33,11 @@
     "symfony/process": "^3.3.8",
     "symfony/finder": "^3.3.8",
     "symfony/yaml": "^3.3.8",
-    "phpseclib/phpseclib": "2.0.6",
+    "phpseclib/phpseclib": "^2.0.6",
     "nette/reflection": "^2.4.2",
     "fzaninotto/faker": "^1.7.1",
     "doctrine/dbal": "^2.5.12",
-    "phpoption/phpoption": "1.5.0",
+    "phpoption/phpoption": "^1.5.0",
     "hamcrest/hamcrest-php": "^2.0.0",
     "squizlabs/php_codesniffer": "^3.0.0"
   },
