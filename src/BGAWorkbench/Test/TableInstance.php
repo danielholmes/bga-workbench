@@ -143,17 +143,28 @@ class TableInstance
         Utils::callProtectedMethod($game, 'setupNewGame', $this->createPlayersById(), $this->options);
 
         if (!empty($this->playerAmendments)) {
-            foreach ($this->playerAmendments as $id => $player) {
-                $numAffected = $this->getDbConnection()->update('player', $player, ['player_id' => $id]);
-                if ($numAffected === 0) {
-                    $found = (boolean) $this->getDbConnection()->executeQuery(
-                        "SELECT COUNT(player_id) FROM player WHERE player_id = {$id}"
-                    );
-                    if (!$found) {
-                        throw new \RuntimeException("No player with id {$id} found to override");
+            $rawPlayerNos = $this->getDbConnection()->fetchAll('SELECT player_no, player_id FROM player');
+            $playerNos = [];
+            foreach ($rawPlayerNos as $rawPlayerNo) {
+                $playerNos[$rawPlayerNo['player_id']] = (int) $rawPlayerNo['player_no'];
+            }
+
+            $this->getDbConnection()->transactional(function(Connection $db) use ($playerNos) {
+                $db->executeUpdate('UPDATE player SET player_no = player_no + 10000');
+
+                foreach ($this->playerAmendments as $id => $player) {
+                    $playerData = array_merge(['player_no' => $playerNos[$id]], $player);
+                    $numAffected = $db->update('player', $playerData, ['player_id' => $id]);
+                    if ($numAffected === 0) {
+                        $found = (boolean) $db->executeQuery(
+                            "SELECT COUNT(player_id) FROM player WHERE player_id = {$id}"
+                        );
+                        if (!$found) {
+                            throw new \RuntimeException("No player with id {$id} found to override");
+                        }
                     }
                 }
-            }
+            });
         }
 
         return $this;
