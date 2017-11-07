@@ -183,9 +183,7 @@ class TableInstance
      */
     public function createGameInstanceForCurrentPlayer($currentPlayerId)
     {
-        $playerIds = array_map(function (array $player) {
-            return $player['player_id'];
-        }, $this->players);
+        $playerIds = F\pluck($this->players, 'player_id');
         if (!in_array($currentPlayerId, $playerIds, true)) {
             $playerIdsList = join(', ', $playerIds);
             throw new \InvalidArgumentException("Current player {$currentPlayerId} not in {$playerIdsList}");
