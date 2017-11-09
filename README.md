@@ -35,27 +35,28 @@ bgawb build -d -w
 ```
 
 
-## Development Requirements
+## Development
+
+### Requirements
 
  - [Vagrant](https://www.vagrantup.com/)
 
 
-## Setting up Developer Machine
+### Setting up Developer Machine
 
 ```
 vagrant up
 ```
 
 
-## Running Tests
+### Running Tests
 
 ```
-vagrant ssh
-composer test
+vagrant ssh -c "composer test"
 ```
 
 
-## Compilation Notes
+### Compilation Notes
 
 See [https://github.com/mamuz/PhpDependencyAnalysis](https://github.com/mamuz/PhpDependencyAnalysis) if need a better
 class dependency tree extraction.
@@ -75,7 +76,7 @@ visitor:
 ```
 
 
-## TODO
+### TODO
 
  - Better documentation
  - Output is pretty rough for build command and its variants (--deploy and --watch)
