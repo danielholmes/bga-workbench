@@ -23,7 +23,7 @@ TODO: some command to generate a bgaproject file
 ### Deploying your project to BGA
 
 ```
-bgawb build -d
+bgawb build --deploy
 ```
 
 ### Continuous Deployment to Studio
@@ -31,7 +31,7 @@ bgawb build -d
 Watches development files and deploys them as they change.
 
 ```
-bgawb build -d -w
+bgawb build --deploy --watch
 ```
 
 
