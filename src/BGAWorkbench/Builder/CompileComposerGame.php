@@ -129,7 +129,6 @@ class CompileComposerGame implements BuildInstruction
         $this->fileSystem->put($configFilepath, '<?php return ' . var_export($filePaths, true) . ';');
 
         $process = ProcessBuilder::create([
-            'php',
             'classpreloader.php',
             'compile',
             '--config=' . $configFilepath,

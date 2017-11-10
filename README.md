@@ -78,10 +78,12 @@ visitor:
 
 ### TODO
 
+ - Remove dependency on classpreloader.php console
  - Better documentation
  - Output is pretty rough for build command and its variants (--deploy and --watch)
  - bga init command to interactively create project config + (optionally) deploy config
  - Attempt PHP 5.6 compat?
+ - Generate image of state machine (ASCII or regular image)
  - Lint files in watch before deploy
  - validate states file - states functions all present
  - better validate command - run all and show results at end rather than exit on first
