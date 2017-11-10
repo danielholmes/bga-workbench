@@ -1,0 +1,6 @@
+useComposer: false
+
+testDb:
+  namePrefix: example_test_
+  user: root
+  pass: examplepw

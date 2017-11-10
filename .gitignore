@@ -1,2 +1,4 @@
-/build
 /vendor
+/resources/test-projects/simple-composer-example/vendor
+/resources/test-projects/simple-composer-example/build
+/resources/test-projects/simple-composer-example/dist

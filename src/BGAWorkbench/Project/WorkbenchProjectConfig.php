@@ -144,7 +144,7 @@ class WorkbenchProjectConfig
         if ($this->useComposer) {
             return new ComposerProject($this->directory, $projectName, $this->extraSrcPaths);
         }
-        return new Project($this->directory, $projectName, $this->extraSrcPaths);
+        return new Project($this->directory, $projectName);
     }
 
     /**
@@ -183,7 +183,7 @@ class WorkbenchProjectConfig
             $processed['testDb']['user'],
             $processed['testDb']['pass'],
             $processed['linterPhpBin'],
-            Option::fromValue($processed['sftp'])->map(function (array $raw) {
+            Option::fromValue(isset($processed['sftp']) ? $processed['sftp'] : null)->map(function (array $raw) {
                 return new DeployConfig($raw['host'], $raw['user'], $raw['pass']);
             })
         );

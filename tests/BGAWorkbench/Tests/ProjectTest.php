@@ -3,6 +3,7 @@
 namespace BGAWorkbench\Tests;
 
 use BGAWorkbench\Project\Project;
+use BGAWorkbench\Test\Fixtures;
 use PhpOption\Some;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
@@ -17,10 +18,7 @@ class ProjectTest extends TestCase
 
     protected function setUp()
     {
-        $this->project = new Project(
-            new \SplFileInfo(realpath(__DIR__ . '/../../../resources/example-project')),
-            'battleforhill'
-        );
+        $this->project = Fixtures::loadTestProject('simple-example');
     }
 
     public function testBuildInputPaths()
@@ -31,12 +29,12 @@ class ProjectTest extends TestCase
                 F\map(
                     [
                         'img',
-                        'battleforhill.css',
-                        'battleforhill.js',
-                        'battleforhill.game.php',
-                        'battleforhill.action.php',
-                        'battleforhill.view.php',
-                        'battleforhill_battleforhill.tpl',
+                        'example.css',
+                        'example.js',
+                        'example.game.php',
+                        'example.action.php',
+                        'example.view.php',
+                        'example_example.tpl',
                         'states.inc.php',
                         'stats.inc.php',
                         'material.inc.php',
@@ -69,12 +67,12 @@ class ProjectTest extends TestCase
                         'img/game_box75.png',
                         'img/game_icon.png',
                         'img/publisher.png',
-                        'battleforhill.css',
-                        'battleforhill.js',
-                        'battleforhill.game.php',
-                        'battleforhill.action.php',
-                        'battleforhill.view.php',
-                        'battleforhill_battleforhill.tpl',
+                        'example.css',
+                        'example.js',
+                        'example.game.php',
+                        'example.action.php',
+                        'example.view.php',
+                        'example_example.tpl',
                         'states.inc.php',
                         'stats.inc.php',
                         'material.inc.php',
@@ -98,7 +96,7 @@ class ProjectTest extends TestCase
     public function testGetFileVariableValue()
     {
         assertThat(
-            $this->project->getFileVariableValue('version.php', 'game_version_battleforhill'),
+            $this->project->getFileVariableValue('version.php', 'game_version_example'),
             equalTo(new Some('999999-9999'))
         );
     }

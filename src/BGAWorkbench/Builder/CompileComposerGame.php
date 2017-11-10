@@ -4,6 +4,8 @@ namespace BGAWorkbench\Builder;
 
 use BGAWorkbench\Utils\FileUtils;
 use BGAWorkbench\Utils\NameAccumulatorNodeVisitor;
+use ClassPreloader\Exceptions\VisitorExceptionInterface;
+use ClassPreloader\Factory;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Filesystem\Filesystem;
 use PhpParser\Node\Name;
@@ -119,28 +121,35 @@ class CompileComposerGame implements BuildInstruction
             return [];
         }
 
-        $configFilepath = $this->buildDir->getPathname() . DIRECTORY_SEPARATOR . 'compiler-config.php';
-        $filePaths = F\map(
-            $files,
-            function (\SplFileInfo $file) {
-                return $file->getPathname();
-            }
-        );
-        $this->fileSystem->put($configFilepath, '<?php return ' . var_export($filePaths, true) . ';');
-
-        $process = ProcessBuilder::create([
-            'classpreloader.php',
-            'compile',
-            '--config=' . $configFilepath,
-            '--output=' . $outputFile->getPathname(),
-            '--strip_comments=1'
-        ])->getProcess();
-        $result = $process->run();
-        if ($result !== 0) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
+        $this->writeCompiledOutput($files, $outputFile);
 
         return [FileUtils::createRelativeFileFromExisting($distDir, $outputFile)];
+    }
+
+    /**
+     * @param \SplFileInfo[] $files
+     * @param \SplFileInfo $outputFile
+     */
+    private function writeCompiledOutput(array $files, \SplFileInfo $outputFile)
+    {
+        $preloader = (new Factory())->create([
+            'dir'    => true,
+            'file'   => true,
+            'skip'   => false,
+            'strict' => false,
+        ]);
+
+        $comments = false;
+        $handle = $preloader->prepareOutput($outputFile, 0);
+        foreach ($files as $file) {
+            try {
+                $code = $preloader->getCode($file->getPathname(), $comments);
+                fwrite($handle, $code."\n");
+            } catch (VisitorExceptionInterface $e) {
+                // Skipping
+            }
+        }
+        fclose($handle);
     }
 
     /**
@@ -162,12 +171,20 @@ class CompileComposerGame implements BuildInstruction
 
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
 
-        $autoloadFiles = F\map(
-            array_values(require($workingDir->getPathname() . '/vendor/composer/autoload_files.php')),
-            function ($path) {
-                return new \SplFileInfo($path);
-            }
-        );
+        // TODO: Test project with autoload files
+        $autoloadFilesPath = $workingDir->getPathname() . '/vendor/composer/autoload_files.php';
+        $autoloadFiles = [];
+        if ($this->fileSystem->exists($autoloadFilesPath)) {
+            $autoloadFiles = array_merge(
+                $autoloadFiles,
+                F\map(
+                    array_values(require($autoloadFilesPath)),
+                    function ($path) {
+                        return new \SplFileInfo($path);
+                    }
+                )
+            );
+        }
         list($before, $after) = $this->getDependencyFiles(
             $parser,
             $loader,

@@ -1,6 +1,6 @@
 {
   "name": "dholmes/bga-workbench",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "library",
   "description": "BoardGameArena Workbench",
   "minimum-stability": "stable",
@@ -26,7 +26,6 @@
     "ext-pdo_mysql": "*",
     "lstrojny/functional-php": "1.6.0",
     "classpreloader/classpreloader": "^3.1.0",
-    "classpreloader/console": "^2.0.0",
     "jasonlewis/resource-watcher": "1.2.0",
     "symfony/console": "^3.3.8",
     "symfony/config": "^3.3.8",

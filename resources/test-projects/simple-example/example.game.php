@@ -2,13 +2,13 @@
  /**
   *------
   * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
-  * BattleForHill implementation : © <Daniel Holmes> <daniel@danielholmes.org>
+  * Example implementation : © <Daniel Holmes> <daniel@danielholmes.org>
   *
   * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
   * See http://en.boardgamearena.com/#!doc/Studio for more information.
   * -----
   *
-  * battleforhill.game.php
+  * example.game.php
   *
   * This is the main file for your game logic.
   *z
@@ -19,14 +19,14 @@
 require_once(APP_GAMEMODULE_PATH . 'module/table/table.game.php');
 
 
-class BattleForHill extends Table
+class Example extends Table
 {
     /**
      * @return string
      */
     protected function getGameName()
     {
-        return "battleforhill";
+        return "example";
     }
 
     /*

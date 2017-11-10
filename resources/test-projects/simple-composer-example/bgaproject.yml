@@ -1,0 +1,9 @@
+useComposer: true
+
+extraSrc:
+  - src/SimpleComposerExample
+
+testDb:
+  namePrefix: example_test_
+  user: root
+  pass: examplepw

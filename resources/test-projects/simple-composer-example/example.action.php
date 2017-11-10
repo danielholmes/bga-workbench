@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @property BattleForHill game
+ * @property Example game
  */
-class action_battleforhill extends APP_GameAction
+class action_example extends APP_GameAction
 {
     public function __default()
     {
@@ -11,7 +11,7 @@ class action_battleforhill extends APP_GameAction
             $this->view = "common_notifwindow";
             $this->viewArgs['table'] = $this->getArg("table", AT_posint, true);
         } else {
-            $this->view = "battleforhill_battleforhill";
+            $this->view = "example_example";
             self::trace("Complete reinitialization of board game");
         }
     }

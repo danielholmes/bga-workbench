@@ -1,6 +1,7 @@
 # BoardGameArena Workbench
 
 [![Build Status](https://travis-ci.org/danielholmes/bga-workbench.svg?branch=master)](https://travis-ci.org/danielholmes/bga-workbench)
+[![Latest Stable Version](https://img.shields.io/packagist/v/dholmes/bga-workbench.svg)](https://packagist.org/packages/dholmes/bga-workbench)
 
 Set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects. See
 [The Battle for Hill 218](https://github.com/danielholmes/battle-for-hill-218) for an example usage.
@@ -52,7 +53,8 @@ vagrant up
 ### Running Tests
 
 ```
-vagrant ssh -c "composer test"
+vagrant ssh
+composer test
 ```
 
 
@@ -78,7 +80,6 @@ visitor:
 
 ### TODO
 
- - Remove dependency on classpreloader.php console
  - Better documentation
  - Output is pretty rough for build command and its variants (--deploy and --watch)
  - bga init command to interactively create project config + (optionally) deploy config

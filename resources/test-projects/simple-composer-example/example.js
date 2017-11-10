@@ -16,7 +16,7 @@ define([
     "ebg/scrollmap"
 ],
 function (dojo, declare, lang, dom, query, array, domConstruct, domClass, domGeom, fx) {
-    return declare("bgagame.battleforhill", ebg.core.gamegui, {
+    return declare("bgagame.example", ebg.core.gamegui, {
         constructor: function() {
         },
         

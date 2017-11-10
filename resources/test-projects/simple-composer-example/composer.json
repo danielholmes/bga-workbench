@@ -1,0 +1,13 @@
+{
+  "name": "simple-composer-example",
+  "type": "project",
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "SimpleComposerExample\\": "src/SimpleComposerExample"
+    }
+  },
+  "require": {
+    "phpoption/phpoption": "1.5.0"
+  }
+}
