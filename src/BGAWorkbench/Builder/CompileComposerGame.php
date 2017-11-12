@@ -104,9 +104,7 @@ class CompileComposerGame implements BuildInstruction
     {
         $workingDir = $this->createBuildCopy();
 
-        $outputFile = new \SplFileInfo(
-            $distDir->getPathname() . DIRECTORY_SEPARATOR . $this->gameFile->getRelativePathname()
-        );
+        $outputFile = FileUtils::joinPathToFileInfo($distDir->getPathname(), $this->gameFile->getRelativePathname());
         $files = $this->createDependenciesFileList($workingDir);
         $sourceModifiedTime = F\reduce_left(
             $files,
@@ -321,17 +319,17 @@ class CompileComposerGame implements BuildInstruction
      */
     public function createBuildCopy()
     {
-        $buildDir = new \SplFileInfo($this->buildDir->getPathname() . DIRECTORY_SEPARATOR . 'prod-vendors');
+        $prodVendorsDir = FileUtils::joinPathToFileInfo($this->buildDir, 'prod-vendors');
 
         foreach ($this->extraSrcPaths as $fromSource) {
-            $toSource = new \SplFileInfo($buildDir->getPathname() . '/' . $fromSource->getRelativePathname());
+            $toSource = FileUtils::joinPathToFileInfo($prodVendorsDir, $fromSource->getRelativePathname());
             if ($this->getDirectoryMTime($fromSource) > $this->getDirectoryMTime($toSource)) {
                 // TODO: To only trigger build processes that need to be, should only copy files that have changed
                 $this->fileSystem->copyDirectory($fromSource->getPathname(), $toSource->getPathname());
             }
         }
 
-        $buildVendorLock = new \SplFileInfo($buildDir->getPathname() . DIRECTORY_SEPARATOR . 'composer.lock');
+        $buildVendorLock = FileUtils::joinPathToFileInfo($prodVendorsDir, 'composer.lock');
         $vendorsChanged = !$this->fileSystem->exists($buildVendorLock->getPathname()) ||
             $buildVendorLock->getMTime() < $this->composerLockFile->getMTime();
 
@@ -339,7 +337,7 @@ class CompileComposerGame implements BuildInstruction
             foreach ([$this->composerJsonFile, $this->composerLockFile] as $composerFile) {
                 $this->copyIfNewer(
                     $composerFile->getPathname(),
-                    $buildDir->getPathname() . DIRECTORY_SEPARATOR . $composerFile->getRelativePathname()
+                    FileUtils::joinPath($prodVendorsDir, $composerFile->getRelativePathname())
                 );
             }
 
@@ -349,7 +347,7 @@ class CompileComposerGame implements BuildInstruction
                 '--no-dev',
                 '-o',
                 '-d',
-                $buildDir->getPathname()
+                $prodVendorsDir->getPathname()
             ])->getProcess();
             $process->run();
             if (!$process->isSuccessful()) {
@@ -357,6 +355,6 @@ class CompileComposerGame implements BuildInstruction
             }
         }
 
-        return $buildDir;
+        return $prodVendorsDir;
     }
 }

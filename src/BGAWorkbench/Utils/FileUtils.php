@@ -32,6 +32,28 @@ class FileUtils
      */
     public static function createRelativeFileFromSubPath(\SplFileInfo $directory, $subPath) : SplFileInfo
     {
-        return new SplFileInfo($directory->getPathname() . DIRECTORY_SEPARATOR . $subPath, dirname($subPath), $subPath);
+        return new SplFileInfo(self::joinPath($directory, $subPath), dirname($subPath), $subPath);
+    }
+
+    /**
+     * @param string ...$part
+     * @return string
+     */
+    public static function joinPath()
+    {
+        $parts = func_get_args();
+        if (empty($parts)) {
+            throw new \InvalidArgumentException('Must provide some parts');
+        }
+        return join(DIRECTORY_SEPARATOR, $parts);
+    }
+
+    /**
+     * @param string ...$part
+     * @return \SplFileInfo
+     */
+    public static function joinPathToFileInfo()
+    {
+        return new \SplFileInfo(call_user_func_array(['self', 'joinPath'], func_get_args()));
     }
 }

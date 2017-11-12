@@ -5,6 +5,7 @@ namespace BGAWorkbench\Test;
 use BGAWorkbench\Project\Project;
 use BGAWorkbench\Project\WorkbenchProjectConfig;
 use BGAWorkbench\Utils;
+use BGAWorkbench\Utils\FileUtils;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Functional as F;
@@ -64,7 +65,7 @@ class TableInstance
             $config->getTestDbUsername(),
             $config->getTestDbPassword(),
             [
-                join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Stubs', 'dbmodel.sql']),
+                FileUtils::joinPath(__DIR__, '..', 'Stubs', 'dbmodel.sql'),
                 $this->project->getDbModelSqlFile()->getPathname()
             ]
         );

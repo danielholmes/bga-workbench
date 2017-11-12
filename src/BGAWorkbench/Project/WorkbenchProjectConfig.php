@@ -3,6 +3,7 @@
 namespace BGAWorkbench\Project;
 
 use BGAWorkbench\Utils;
+use BGAWorkbench\Utils\FileUtils;
 use PhpOption\Option;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -126,7 +127,7 @@ class WorkbenchProjectConfig
      */
     public function loadProject() : Project
     {
-        $versionFile = new \SplFileInfo($this->directory->getPathname() . DIRECTORY_SEPARATOR . 'version.php');
+        $versionFile = FileUtils::joinPathToFileInfo($this->directory, 'version.php');
 
         $GAME_VERSION_PREFIX = 'game_version_';
         $variableName = Utils::getVariableNameFromFile(
@@ -161,7 +162,7 @@ class WorkbenchProjectConfig
      */
     public static function loadFrom(\SplFileInfo $directory) : WorkbenchProjectConfig
     {
-        $filepath = $directory->getPathname() . DIRECTORY_SEPARATOR . 'bgaproject.yml';
+        $filepath = FileUtils::joinPath($directory, 'bgaproject.yml');
         $rawContent = @file_get_contents($filepath);
         if ($rawContent === false) {
             throw new \InvalidArgumentException("Couldn't read project config {$filepath}");

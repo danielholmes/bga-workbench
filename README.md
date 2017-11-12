@@ -81,6 +81,7 @@ visitor:
 ### TODO
 
  - Better documentation
+ - Support for modules directory structure
  - Output is pretty rough for build command and its variants (--deploy and --watch)
  - bga init command to interactively create project config + (optionally) deploy config
  - Attempt PHP 5.6 compat?

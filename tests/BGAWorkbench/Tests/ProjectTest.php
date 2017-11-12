@@ -63,8 +63,6 @@ class ProjectTest extends TestCase
                 F\map(
                     [
                         'img/game_box.png',
-                        'img/game_box180.png',
-                        'img/game_box75.png',
                         'img/game_icon.png',
                         'img/publisher.png',
                         'example.css',

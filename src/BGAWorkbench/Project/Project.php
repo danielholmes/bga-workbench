@@ -219,11 +219,9 @@ class Project
             $this->getRootRequiredFiles(),
             F\map(
                 [
-                    "img" . DIRECTORY_SEPARATOR . "game_box.png",
-                    "img" . DIRECTORY_SEPARATOR . "game_box75.png",
-                    "img" . DIRECTORY_SEPARATOR . "game_box180.png",
-                    "img" . DIRECTORY_SEPARATOR . "game_icon.png",
-                    "img" . DIRECTORY_SEPARATOR . "publisher.png"
+                    FileUtils::joinPath('img', 'game_box.png'),
+                    FileUtils::joinPath('img', 'game_icon.png'),
+                    FileUtils::joinPath('img', 'publisher.png')
                 ],
                 function ($name) {
                     return $this->getProjectFile($name);
