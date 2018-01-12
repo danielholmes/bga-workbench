@@ -1,6 +1,11 @@
 <?php
 
-function clienttranslate($name)
+function clienttranslate($str)
 {
-    return $name;
+    return $str;
+}
+
+function totranslate($str)
+{
+    return $str;
 }

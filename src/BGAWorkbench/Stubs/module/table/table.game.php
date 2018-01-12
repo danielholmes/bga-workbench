@@ -77,16 +77,74 @@ abstract class Table extends APP_GameClass
         return true;
     }
 
+    private function getStatTypeId($targetName)
+    {
+        include('stats.inc.php');
+        foreach ($stats_type as $type => $stats) {
+            foreach ($stats as $name => $stat) {
+                if ($name === $targetName) {
+                    return $stat['id'];
+                }
+            }
+        }
+        throw new Exception('State not found: ' . $targetName);
+    }
+
     public function initStat($table_or_player, $name, $value, $player_id = null)
     {
+        $typeId = $this->getStatTypeId($name);
+        $sql = 'INSERT INTO stats (stats_type, stats_player_id, stats_value) VALUES ';
+
+        switch ($table_or_player) {
+            case 'table':
+                $sql .= sprintf('(%d, NULL, %s)', $typeId, $value);
+                break;
+            case 'player':
+                $players = self::loadPlayersBasicInfos();
+                if ($player_id === null) {
+                    $values = [];
+                    foreach (array_keys($players) as $id) {
+                        $values[] = "('" . $typeId . "','$id','" . $value . "')";
+                    }
+                    $sql .= implode(', ', $values);
+                } else {
+                    $values[] = "('" . $typeId . "','$player_id','" . $value . "')";
+                }
+                break;
+            default:
+                throw new InvalidArgumentException(sprintf('Wrong table_or_player type: %s', $table_or_player));
+        }
+
+        self::DbQuery($sql);
     }
 
     public function incStat($delta, $name, $player_id = null)
     {
+        $typeId = $this->getStatTypeId($name);
+        if ($player_id === null) {
+            self::DbQuery("UPDATE stats SET stats_value = stats_value + {$delta} WHERE stats_type = {$typeId}");
+        } else {
+            self::DbQuery("UPDATE stats SET stats_value = stats_value + {$delta} WHERE stats_type = {$typeId} AND stats_player_id = {$player_id}");
+        }
     }
 
     public function setStat($value, $name, $player_id = null)
     {
+        $typeId = $this->getStatTypeId($name);
+        if ($player_id === null) {
+            self::DbQuery("UPDATE stats SET stats_value = {$value} WHERE stats_type = {$typeId}");
+        } else {
+            self::DbQuery("UPDATE stats SET stats_value = {$value} WHERE stats_type = {$typeId} AND stats_player_id = {$player_id}");
+        }
+    }
+
+    public function getStat($name, $player_id = null)
+    {
+        $typeId = $this->getStatTypeId($name);
+        if ($player_id === null) {
+            return self::getUniqueValueFromDB("SELECT stats_value FROM stats WHERE stats_type = ${typeId}");
+        }
+        return self::getUniqueValueFromDB("SELECT stats_value FROM stats WHERE stats_type = ${typeId} AND stats_player_id = {$player_id}");
     }
 
     /**
