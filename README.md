@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/danielholmes/bga-workbench.svg?branch=master)](https://travis-ci.org/danielholmes/bga-workbench)
 [![Latest Stable Version](https://img.shields.io/packagist/v/dholmes/bga-workbench.svg)](https://packagist.org/packages/dholmes/bga-workbench)
 
-Set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects. See
-[The Battle for Hill 218](https://github.com/danielholmes/battle-for-hill-218) for an example usage.
+Set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects.
 
 
 ## Usage
@@ -34,6 +33,12 @@ Watches development files and deploys them as they change.
 ```
 bgawb build --deploy --watch
 ```
+
+
+## Projects Using BGA Workbench
+
+ - [The Battle for Hill 218](https://github.com/danielholmes/battle-for-hill-218)
+ - [Tablut](https://github.com/Lucas-C/tablut)
 
 
 ## Development
