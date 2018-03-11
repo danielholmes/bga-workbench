@@ -13,7 +13,9 @@ class APP_DbObject extends APP_Object
      */
     public static function DbQuery($sql)
     {
-        self::$affectedRows = self::getDbConnection()->executeQuery($sql)->rowCount();
+        $result = self::getDbConnection()->executeQuery($sql);
+        self::$affectedRows = $result->rowCount();
+        return $result;
     }
 
     /**
