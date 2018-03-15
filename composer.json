@@ -23,6 +23,7 @@
   "bin": ["bin/bgawb"],
   "require": {
     "php": ">=7.0.8",
+    "ext-mysqli": "*",
     "ext-pdo_mysql": "*",
     "lstrojny/functional-php": ">=1.6.0 <1.8.0",
     "classpreloader/classpreloader": "^3.1.0",
