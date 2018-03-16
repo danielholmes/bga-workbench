@@ -5,6 +5,7 @@
 
 A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects.
 
+<!--ts-->
   * [Installation](#installation)
   * [Initialise BGA Project](#initialise-bga-project)
   * [Deploying to BGA Studio](#deploying-to-bga-studio)
@@ -17,6 +18,7 @@ A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projec
     * [Requirements](#requirements)
     * [Setting up Developer Machine](#setting-up-developer-machine)
     * [Running tests](#running-tests)
+<!--te-->
 
 
 ## Installation
