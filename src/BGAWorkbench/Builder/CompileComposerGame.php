@@ -66,7 +66,7 @@ class CompileComposerGame implements BuildInstruction
         SplFileInfo $gameFile,
         array $extraSrcPaths
     ) {
-    
+
         $this->fileSystem = $fileSystem;
         $this->buildDir = $buildDir;
         $this->composerJsonFile = $composerJsonFile;
@@ -345,6 +345,7 @@ class CompileComposerGame implements BuildInstruction
                 'composer',
                 'install',
                 '--no-dev',
+                '--no-scripts',
                 '-o',
                 '-d',
                 $prodVendorsDir->getPathname()
