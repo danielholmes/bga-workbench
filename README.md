@@ -5,20 +5,18 @@
 
 A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects.
 
-<!--ts-->
-  * [Installation](#installation)
-  * [Initialise BGA Project](#initialise-bga-project)
-  * [Deploying to BGA Studio](#deploying-to-bga-studio)
-  * [Compiling composer projects](#compiling-composer-projects)
-  * [Testing utilities](#testing-utilities)
+   * [Installation](#installation)
+   * [Initialise BGA Project](#initialise-bga-project)
+   * [Deploying to BGA Studio](#deploying-to-bga-studio)
+   * [Compiling composer projects](#compiling-composer-projects)
+   * [Testing utilities](#testing-utilities)
  
-  * [Projects Using BGA Workbench](#projects-using-bga-workbench)
+   * [Projects Using BGA Workbench](#projects-using-bga-workbench)
  
-  * [Development](#development)
-    * [Requirements](#requirements)
-    * [Setting up Developer Machine](#setting-up-developer-machine)
-    * [Running tests](#running-tests)
-<!--te-->
+   * [Development](#development)
+      * [Requirements](#requirements)
+      * [Setting up Developer Machine](#setting-up-developer-machine)
+      * [Running tests](#running-tests)
 
 
 ## Installation
@@ -28,6 +26,9 @@ Via composer:
 ```
 composer require --dev dhau/bga-workbench
 ```
+
+To set up your project to work with BGA Workbench you need to have a `bgaproject.yml` file in the root.
+To generate one see the [`bgawb init` command](#initialise-bga-project).
 
 
 ## Initialise BGA Project
