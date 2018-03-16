@@ -2,6 +2,7 @@
 
 namespace BGAWorkbench\Test;
 
+use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use BGAWorkbench\Project\Project;
 use BGAWorkbench\Project\WorkbenchProjectConfig;
 
@@ -42,7 +43,7 @@ trait TestHelp
     private static function getCwdProjectConfig() : WorkbenchProjectConfig
     {
         if (self::$cwdConfig === null) {
-            self::$cwdConfig = WorkbenchProjectConfig::loadFromCwd();
+            self::$cwdConfig = WorkbenchProjectConfigSerialiser::readFromCwd();
         }
 
         return self::$cwdConfig;

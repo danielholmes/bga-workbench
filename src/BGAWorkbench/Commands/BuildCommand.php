@@ -5,6 +5,7 @@ namespace BGAWorkbench\Commands;
 use BGAWorkbench\Commands\BuildStrategy\BuildStrategy;
 use BGAWorkbench\Commands\BuildStrategy\CompileBuildStrategy;
 use BGAWorkbench\Commands\BuildStrategy\DeployBuildStrategy;
+use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use BGAWorkbench\Project\Project;
 use Illuminate\Filesystem\Filesystem;
 use JasonLewis\ResourceWatcher\Tracker;
@@ -37,7 +38,7 @@ class BuildCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = WorkbenchProjectConfig::loadFromCwd();
+        $config = WorkbenchProjectConfigSerialiser::readFromCwd();
         $project = $config->loadProject();
         $strategy = $this->createBuildStrategy($input, $config, $project);
         try {

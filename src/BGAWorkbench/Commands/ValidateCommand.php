@@ -2,6 +2,7 @@
 
 namespace BGAWorkbench\Commands;
 
+use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use BGAWorkbench\Project\Project;
 use BGAWorkbench\Project\WorkbenchProjectConfig;
 use BGAWorkbench\Validate\StateConfiguration;
@@ -36,7 +37,7 @@ HELP
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = WorkbenchProjectConfig::loadFromCwd();
+        $config = WorkbenchProjectConfigSerialiser::readFromCwd();
         $project = $config->loadProject();
 
         $this->validateRequiredFilesExist($project);

@@ -5,9 +5,6 @@ namespace BGAWorkbench\Project;
 use BGAWorkbench\Utils;
 use BGAWorkbench\Utils\FileUtils;
 use PhpOption\Option;
-use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
 
 class WorkbenchProjectConfig
 {
@@ -71,7 +68,7 @@ class WorkbenchProjectConfig
         string $linterPhpBin,
         Option $sftpConfig
     ) {
-    
+
         $this->directory = $directory;
         $this->useComposer = $useComposer;
         $this->extraSrcPaths = $extraSrcPaths;
@@ -123,6 +120,22 @@ class WorkbenchProjectConfig
     }
 
     /**
+     * @return bool
+     */
+    public function getUseComposer() : bool
+    {
+        return $this->useComposer;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getExtraSrcPaths(): array
+    {
+        return $this->extraSrcPaths;
+    }
+
+    /**
      * @return Project
      */
     public function loadProject() : Project
@@ -146,47 +159,5 @@ class WorkbenchProjectConfig
             return new ComposerProject($this->directory, $projectName, $this->extraSrcPaths);
         }
         return new Project($this->directory, $projectName);
-    }
-
-    /**
-     * @return WorkbenchProjectConfig
-     */
-    public static function loadFromCwd() : WorkbenchProjectConfig
-    {
-        return self::loadFrom(new \SplFileInfo(getcwd()));
-    }
-
-    /**
-     * @param \SplFileInfo $directory
-     * @return WorkbenchProjectConfig
-     */
-    public static function loadFrom(\SplFileInfo $directory) : WorkbenchProjectConfig
-    {
-        $filepath = FileUtils::joinPath($directory, 'bgaproject.yml');
-        $rawContent = @file_get_contents($filepath);
-        if ($rawContent === false) {
-            throw new \InvalidArgumentException("Couldn't read project config {$filepath}");
-        }
-
-        try {
-            $rawConfig = Yaml::parse($rawContent);
-        } catch (ParseException $e) {
-            throw new \InvalidArgumentException("Invalid YAML in file {$filepath}", 0, $e);
-        }
-
-        $processor = new Processor();
-        $processed = $processor->processConfiguration(new ConfigFileConfiguration(), [$rawConfig]);
-        return new WorkbenchProjectConfig(
-            $directory,
-            $processed['useComposer'],
-            $processed['extraSrc'],
-            $processed['testDb']['namePrefix'],
-            $processed['testDb']['user'],
-            $processed['testDb']['pass'],
-            $processed['linterPhpBin'],
-            Option::fromValue(isset($processed['sftp']) ? $processed['sftp'] : null)->map(function (array $raw) {
-                return new DeployConfig($raw['host'], $raw['user'], $raw['pass']);
-            })
-        );
     }
 }

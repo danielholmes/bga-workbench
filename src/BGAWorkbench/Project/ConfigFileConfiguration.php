@@ -7,6 +7,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class ConfigFileConfiguration implements ConfigurationInterface
 {
+    const DEFAULT_LINTER_PHP_BIN = 'php';
+
     /**
      * @inheritdoc
      */
@@ -26,7 +28,7 @@ class ConfigFileConfiguration implements ConfigurationInterface
                 ->booleanNode('useComposer')
                     ->defaultFalse()
                 ->end()
-                ->scalarNode('linterPhpBin')->defaultValue('php')->end()
+                ->scalarNode('linterPhpBin')->defaultValue(self::DEFAULT_LINTER_PHP_BIN)->end()
                 ->arrayNode('extraSrc')
                     ->defaultValue([])
                     ->prototype('scalar')->end()

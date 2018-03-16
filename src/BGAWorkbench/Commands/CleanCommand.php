@@ -2,7 +2,7 @@
 
 namespace BGAWorkbench\Commands;
 
-use BGAWorkbench\Project\WorkbenchProjectConfig;
+use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +25,7 @@ class CleanCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = WorkbenchProjectConfig::loadFromCwd();
+        $config = WorkbenchProjectConfigSerialiser::readFromCwd();
         $project = $config->loadProject();
 
         $fileSystem = new Filesystem();

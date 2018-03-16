@@ -10,8 +10,10 @@ A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projec
    * [Deploying to BGA Studio](#deploying-to-bga-studio)
    * [Compiling composer projects](#compiling-composer-projects)
    * [Testing utilities](#testing-utilities)
+
  
    * [Projects Using BGA Workbench](#projects-using-bga-workbench)
+
  
    * [Development](#development)
       * [Requirements](#requirements)
@@ -23,7 +25,7 @@ A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projec
 
 Via composer:
 
-```
+```bash
 composer require --dev dhau/bga-workbench
 ```
 
@@ -33,12 +35,17 @@ To generate one see the [`bgawb init` command](#initialise-bga-project).
 
 ## Initialise BGA Project
 
-TODO
+Once you've installed bgawb you can run the below command to interactively create a `bgaproject.yml`
+file.
+
+```bash
+bgawb init
+```
 
 
 ## Deploying to BGA Studio
 
-```
+```bash
 bgawb build --deploy
 ```
 
@@ -46,7 +53,7 @@ bgawb build --deploy
 
 Watches development files and deploys them as they change.
 
-```
+```bash
 bgawb build --deploy --watch
 ```
 
@@ -75,13 +82,13 @@ TODO
 
 ### Setting up Developer Machine
 
-```
+```bash
 vagrant up
 ```
 
 ### Running Tests
 
-```
+```bash
 vagrant ssh
 composer test
 ```
