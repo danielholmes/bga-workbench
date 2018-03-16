@@ -3,12 +3,23 @@
 [![Build Status](https://travis-ci.org/danielholmes/bga-workbench.svg?branch=master)](https://travis-ci.org/danielholmes/bga-workbench)
 [![Latest Stable Version](https://img.shields.io/packagist/v/dholmes/bga-workbench.svg)](https://packagist.org/packages/dholmes/bga-workbench)
 
-Set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects.
+A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects.
+
+  * [Installation](#installation)
+  * [Initialise BGA Project](#initialise-bga-project)
+  * [Deploying to BGA Studio](#deploying-to-bga-studio)
+  * [Compiling composer projects](#compiling-composer-projects)
+  * [Testing utilities](#testing-utilities)
+ 
+  * [Projects Using BGA Workbench](#projects-using-bga-workbench)
+ 
+  * [Development](#development)
+    * [Requirements](#requirements)
+    * [Setting up Developer Machine](#setting-up-developer-machine)
+    * [Running tests](#running-tests)
 
 
-## Usage
-
-### Install
+## Installation
 
 Via composer:
 
@@ -16,11 +27,13 @@ Via composer:
 composer require --dev dhau/bga-workbench
 ```
 
-### Initialise BGA Project
 
-TODO: some command to generate a bgaproject file
+## Initialise BGA Project
 
-### Deploying your project to BGA
+TODO
+
+
+## Deploying to BGA Studio
 
 ```
 bgawb build --deploy
@@ -35,6 +48,16 @@ bgawb build --deploy --watch
 ```
 
 
+## Compiling composer projects
+
+TODO
+
+
+## Testing Utilities
+
+TODO
+
+
 ## Projects Using BGA Workbench
 
  - [The Battle for Hill 218](https://github.com/danielholmes/battle-for-hill-218)
@@ -47,37 +70,15 @@ bgawb build --deploy --watch
 
  - [Vagrant](https://www.vagrantup.com/)
 
-
 ### Setting up Developer Machine
 
 ```
 vagrant up
 ```
 
-
 ### Running Tests
 
 ```
 vagrant ssh
 composer test
-```
-
-
-### Compilation Notes
-
-See [https://github.com/mamuz/PhpDependencyAnalysis](https://github.com/mamuz/PhpDependencyAnalysis) if need a better
-class dependency tree extraction.
-
-`phpda analyze -- analysis.yml`
-
-*analysis.yml*
-```yaml
-mode: 'usage'
-source: './src/MyGame'
-filePattern: '*.php'
-formatter: 'PhpDA\Writer\Strategy\Json'
-target: 'build/usage.json'
-visitor:
-  - PhpDA\Parser\Visitor\TagCollector
-  - PhpDA\Parser\Visitor\SuperglobalCollector
 ```

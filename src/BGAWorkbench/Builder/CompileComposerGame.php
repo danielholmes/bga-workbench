@@ -18,6 +18,24 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\ProcessBuilder;
 use Functional as F;
 
+/**
+ * See [https://github.com/mamuz/PhpDependencyAnalysis](https://github.com/mamuz/PhpDependencyAnalysis) if need a better
+ * class dependency tree extraction.
+ *
+ * `phpda analyze -- analysis.yml`
+ *
+ * `analysis.yml`
+ * ```yaml
+ *   mode: 'usage'
+ *   source: './src/MyGame'
+ *   filePattern: '*.php'
+ *   formatter: 'PhpDA\Writer\Strategy\Json'
+ *   target: 'build/usage.json'
+ *   visitor:
+ *     - PhpDA\Parser\Visitor\TagCollector
+ *     - PhpDA\Parser\Visitor\SuperglobalCollector
+ * ```
+ */
 class CompileComposerGame implements BuildInstruction
 {
     /**
