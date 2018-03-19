@@ -10,17 +10,21 @@ class APP_DbObject extends APP_Object
 
     /**
      * @param string $sql
-     * @return a mysqli_result
+     * @return mysqli_result
      */
     public static function DbQuery($sql)
     {
+        // Haven't yet found equivalent result type of mysqli->query via doctrine
         $conn = self::getDbConnection();
-        self::$affectedRows = $conn->executeQuery($sql)->rowCount();
+        //self::$affectedRows = $conn->executeQuery($sql)->rowCount();
         $host = $conn->getHost();
         if (!is_null($conn->getPort())) {
             $host .= ':' . $conn->getPort();
         }
-        return (new mysqli($host, $conn->getUsername(), $conn->getPassword(), $conn->getDatabase()))->query($sql);
+        $miConn = new mysqli($host, $conn->getUsername(), $conn->getPassword(), $conn->getDatabase());
+        $result = $miConn->query($sql);
+        self::$affectedRows = $miConn->affected_rows;
+        return $result;
     }
 
     /**
