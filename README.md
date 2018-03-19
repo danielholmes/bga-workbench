@@ -29,14 +29,14 @@ Via composer:
 composer require --dev dhau/bga-workbench
 ```
 
-To set up your project to work with BGA Workbench you need to have a `bgaproject.yml` file in the root.
-To generate one see the [`bgawb init` command](#initialise-bga-project).
+To set up your project to work with BGA Workbench you need to have a `bgaproject.yml` file in the root. To generate one 
+see the [`bgawb init` command](#initialise-bga-project).
 
 
 ## Initialise BGA Project
 
-Once you've installed bgawb you can run the below command to interactively create a `bgaproject.yml`
-file in your current directory.
+Once you've installed bgawb you can run the below command to interactively create a `bgaproject.yml` file in your 
+current directory.
 
 ```bash
 bgawb init
@@ -60,7 +60,10 @@ bgawb build --deploy --watch
 
 ## Compiling composer projects
 
-TODO
+The Board Game Arena production framework/environment doesn't natively support a [Composer](https://getcomposer.org/) 
+project setup. By having `useComposer: true` set in your `bgaproject.yml` file, the 
+[`bgawb build`](Deploying to BGA Studio) command will merge all non-dev composer dependencies inline into your .game.php 
+file before deploying. 
 
 
 ## Testing Utilities
