@@ -68,7 +68,96 @@ file before deploying.
 
 ## Testing Utilities
 
-TODO
+Some testing utilities are provided to help test various parts of a standard BGA project game.
+
+### The Validate Command
+
+Will run some basic checks on your project setup. e.g. whether you have the required files to function on the BGA 
+platform (`.game.php`, `.action.php`, etc), whether your `states.inc.php` file is valid, etc. 
+
+```bash
+bgawb validate
+```
+
+### PHPUnit TestHelp trait
+
+Including this trait and implementing the `createGameTableInstanceBuilder` method will set up and tear down a game table 
+instance for each test that is run. Note that this makes use of the `setUp` and `tearDown` PHPUnit hooks
+
+```php
+<?php
+
+namespace Game\Tests;
+
+use PHPUnit\Framework\TestCase;
+use BGAWorkbench\Test\TestHelp;
+use Doctrine\DBAL\Connection;
+use BGAWorkbench\Utils;
+
+class ChooseAttackTest extends TestCase
+{
+    use TestHelp;
+    
+    protected function createGameTableInstanceBuilder() : TableInstanceBuilder
+    {
+        return $this->gameTableInstanceBuilder()
+            ->setPlayersWithIds([66, 77])
+            ->overridePlayersPostSetup([
+                66 => ['player_color' => 'ff0000'],
+                77 => ['player_color' => '00ff00']
+            ]);
+    }
+    
+    public function testAction()
+    {
+        $action = $this->table
+            ->setupNewGame()
+            ->withDbConnection(function (Connection $db) {
+                $db->exec('INSERT battlefield_card (player_id, type, x, y) VALUES (' .
+                    join('), (', [
+                        [77, '"infantry"', 0, -1],  
+                        [66, '"infantry"', 0, 1],  
+                        [66, '"artillery"', 6, 1],  
+                    ])
+                . ')');
+            })
+            ->createActionInstanceForCurrentPlayer(66)
+            ->stubActivePlayerId(66)
+            ->stubArgs(['x' => 5, 'y' => 5]);
+
+        $action->chooseAttack();
+        
+        // TODO: Run some asserts on the db
+    }
+    
+    public function testStateFunc()
+    {
+        $game = $this->table
+            ->setupNewGame()
+            ->createGameInstanceWithNoBoundedPlayer()
+            ->stubActivePlayerId(66);
+        
+        $game->stNextPlayer();
+    }
+    
+    public function testGetAllDatas()
+    {
+        $game = $this->table
+            ->setupNewGame()
+            ->withDbConnection(function (Connection $db) {
+                $db->exec('DELETE FROM deck_card');
+                $db->exec('DELETE FROM playable_card');
+                $db->exec('INSERT INTO battlefield_card (player_id, type, x, y) VALUES (66, "tank", 0, 2)');
+                $db->executeUpdate('UPDATE player SET player_score_aux = 1 WHERE player_id = 66');
+            })
+            ->createGameInstanceForCurrentPlayer(66);
+
+        $datas = Utils::callProtectedMethod($game, 'getAllDatas');
+        
+        // TODO: Some asserts on $datas
+    }
+}
+```
 
 
 ## Projects Using BGA Workbench
