@@ -1,6 +1,6 @@
 <?php
 
-namespace BGAWorkbench\Commands\BuildStrategy;
+namespace BGAWorkbench\Console\BuildStrategy;
 
 use PhpOption\Option;
 use Symfony\Component\Console\Output\OutputInterface;

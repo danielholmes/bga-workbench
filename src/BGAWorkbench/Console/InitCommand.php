@@ -1,6 +1,6 @@
 <?php
 
-namespace BGAWorkbench\Commands;
+namespace BGAWorkbench\Console;
 
 use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use Symfony\Component\Console\Command\Command;
@@ -48,7 +48,6 @@ class InitCommand extends Command
         );
         WorkbenchProjectConfigSerialiser::writeToDirectory($directory, $raw);
 
-        echo var_export(Yaml::dump($raw), true);
         return 0;
     }
 

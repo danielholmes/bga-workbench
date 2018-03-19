@@ -1,10 +1,10 @@
 <?php
 
-namespace BGAWorkbench\Commands;
+namespace BGAWorkbench\Console;
 
-use BGAWorkbench\Commands\BuildStrategy\BuildStrategy;
-use BGAWorkbench\Commands\BuildStrategy\CompileBuildStrategy;
-use BGAWorkbench\Commands\BuildStrategy\DeployBuildStrategy;
+use BGAWorkbench\Console\BuildStrategy\BuildStrategy;
+use BGAWorkbench\Console\BuildStrategy\CompileBuildStrategy;
+use BGAWorkbench\Console\BuildStrategy\DeployBuildStrategy;
 use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use BGAWorkbench\Project\Project;
 use Illuminate\Filesystem\Filesystem;

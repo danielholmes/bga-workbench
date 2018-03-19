@@ -1,6 +1,6 @@
 <?php
 
-namespace BGAWorkbench\Commands;
+namespace BGAWorkbench\Console;
 
 use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use Illuminate\Filesystem\Filesystem;

@@ -1,6 +1,6 @@
 <?php
 
-namespace BGAWorkbench\Commands\BuildStrategy;
+namespace BGAWorkbench\Console\BuildStrategy;
 
 use BGAWorkbench\Builder\BuildInstruction;
 use Functional as F;

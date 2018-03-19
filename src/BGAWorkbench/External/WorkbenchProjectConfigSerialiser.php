@@ -27,12 +27,20 @@ class WorkbenchProjectConfigSerialiser
 
     /**
      * @param \SplFileInfo $directory
+     * @return string
+     */
+    public static function getConfigFileInfo(\SplFileInfo $directory)
+    {
+        return FileUtils::joinPath($directory, self::FILENAME);
+    }
+
+    /**
+     * @param \SplFileInfo $directory
      * @return Option
      */
     private static function getConfigContents(\SplFileInfo $directory) : Option
     {
-        $filepath = FileUtils::joinPath($directory, self::FILENAME);
-        $content = new Some(@file_get_contents($filepath));
+        $content = new Some(@file_get_contents(self::getConfigFileInfo($directory)));
         return $content->filter(function($content) {
             return $content !== false;
         });
@@ -97,7 +105,7 @@ class WorkbenchProjectConfigSerialiser
         $processed = $processor->processConfiguration(new ConfigFileConfiguration(), [$rawConfig]);
 
         $content = Yaml::dump($processed, 2, 4, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
-        $result = @file_put_contents(FileUtils::joinPath($directory->getPathname(), self::FILENAME), $content);
+        $result = @file_put_contents(self::getConfigFileInfo($directory), $content);
         if ($result === false) {
             throw new \InvalidArgumentException('Error writing config file');
         }

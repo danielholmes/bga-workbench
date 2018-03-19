@@ -36,7 +36,7 @@ To generate one see the [`bgawb init` command](#initialise-bga-project).
 ## Initialise BGA Project
 
 Once you've installed bgawb you can run the below command to interactively create a `bgaproject.yml`
-file.
+file in your current directory.
 
 ```bash
 bgawb init

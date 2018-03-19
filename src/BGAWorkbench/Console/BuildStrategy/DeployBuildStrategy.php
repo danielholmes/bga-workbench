@@ -1,6 +1,6 @@
 <?php
 
-namespace BGAWorkbench\Commands\BuildStrategy;
+namespace BGAWorkbench\Console\BuildStrategy;
 
 use BGAWorkbench\ProductionDeployment;
 use BGAWorkbench\Project\DeployConfig;

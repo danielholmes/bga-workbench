@@ -2,6 +2,7 @@
 
 namespace BGAWorkbench\Test;
 
+use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use BGAWorkbench\Project\Project;
 use BGAWorkbench\Project\WorkbenchProjectConfig;
 
@@ -22,7 +23,7 @@ class Fixtures
      */
     public static function loadTestProjectConfig($dirName)
     {
-        return WorkbenchProjectConfig::loadFrom(
+        return WorkbenchProjectConfigSerialiser::readFromDirectory(
             new \SplFileInfo(__DIR__ . '/../../../resources/test-projects/' . $dirName)
         );
     }

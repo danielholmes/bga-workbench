@@ -1,8 +1,8 @@
 <?php
 
-namespace BGAWorkbench\Tests\Builder;
+namespace BGAWorkbench\Tests\Console\BuildStrategy;
 
-use BGAWorkbench\Commands\BuildStrategy\CompileBuildStrategy;
+use BGAWorkbench\Console\BuildStrategy\CompileBuildStrategy;
 use BGAWorkbench\Test\Fixtures;
 use Illuminate\Filesystem\Filesystem;
 use PhpOption\None;
