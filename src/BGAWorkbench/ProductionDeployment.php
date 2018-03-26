@@ -139,6 +139,9 @@ class ProductionDeployment
     private function deployFile(SplFileInfo $file)
     {
         $remoteName = $file->getRelativePathname();
+        if (windows_os()) {
+            $remoteName = str_replace('\\', '/', $remoteName);
+        }
         $remoteDirectories = $this->getRemoteDirectories();
         $remoteDirpath = dirname($remoteName);
         if ($remoteDirpath !== '.' && !in_array($remoteDirpath, $remoteDirectories, true)) {
