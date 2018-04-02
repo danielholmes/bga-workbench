@@ -65,7 +65,7 @@ class ProductionDeployment
     public function connect()
     {
         if (!$this->sftp->login($this->username, $this->password)) {
-            throw new \RuntimeException("Couldn't log in");
+            throw new \RuntimeException("Couldn't log in: " . $this->sftp->getLastSFTPError() . "\n");
         }
         $this->isConnected = true;
     }
@@ -129,7 +129,7 @@ class ProductionDeployment
     {
         $remoteName = $file->getRelativePathname();
         if (!$this->sftp->delete($remoteName)) {
-            throw new \RuntimeException("Error deleting {$remoteName}");
+            throw new \RuntimeException("Error deleting {$remoteName}: " . $this->sftp->getLastSFTPError() . "\n");
         }
     }
 
@@ -147,14 +147,14 @@ class ProductionDeployment
         if ($remoteDirpath !== '.' && !in_array($remoteDirpath, $remoteDirectories, true)) {
             $fullRemoteDirpath = "{$this->directory}/{$remoteDirpath}";
             if (!$this->sftp->mkdir($fullRemoteDirpath, -1, true)) {
-                throw new \RuntimeException("Error creating directory {$fullRemoteDirpath}");
+                throw new \RuntimeException("Error creating directory {$fullRemoteDirpath}: " . $this->sftp->getLastSFTPError() . "\n");
             }
             $this->remoteDirectories = array_merge($this->remoteDirectories, $this->pathToAllSubPaths($remoteDirpath));
         }
 
         $fullRemotePathname = "{$this->directory}/{$remoteName}";
         if (!$this->sftp->put($fullRemotePathname, $file->getPathname(), SFTP::SOURCE_LOCAL_FILE)) {
-            throw new \RuntimeException("Error transferring {$file->getPathname()} to {$remoteName}");
+            throw new \RuntimeException("Error transferring {$file->getPathname()} to {$remoteName}: " . $this->sftp->getLastSFTPError() . "\n");
         }
     }
 
