@@ -24,6 +24,16 @@ class APP_GameClass extends APP_DbObject
 
 class Gamestate
 {
+    /**
+     * @var array
+     */
+    public $table_globals;
+
+    public function __construct()
+    {
+        $this->table_globals = [];
+    }
+
     public function setAllPlayersMultiactive()
     {
     }
