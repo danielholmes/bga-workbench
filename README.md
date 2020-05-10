@@ -26,7 +26,7 @@ A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projec
 Via composer:
 
 ```bash
-composer require --dev dhau/bga-workbench
+composer require --dev dholmes/bga-workbench
 ```
 
 To set up your project to work with BGA Workbench you need to have a `bgaproject.yml` file in the root. To generate one 
