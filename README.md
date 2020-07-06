@@ -168,6 +168,9 @@ class ChooseAttackTest extends TestCase
 
 ## Development
 
+i.e. if you want to make some changes to the BGA Workbench project. This is not required for using the library in your 
+own project.
+
 ### Requirements
 
  - [Vagrant](https://www.vagrantup.com/)
