@@ -30,13 +30,13 @@ class FileUtilsTest extends TestCase
     public function testJoinPathWithFileInfo()
     {
         $result = FileUtils::joinPath(
-            new \SplFileInfo(DIRECTORY_SEPARATOR . 'home' . DIRECTORY_SEPARATOR . 'ubuntu'),
+            new \SplFileInfo(DIRECTORY_SEPARATOR . 'home' . DIRECTORY_SEPARATOR . 'vagrant'),
             'world'
         );
 
         assertThat(
             $result,
-            equalTo(DIRECTORY_SEPARATOR . 'home' . DIRECTORY_SEPARATOR . 'ubuntu' . DIRECTORY_SEPARATOR . 'world')
+            equalTo(DIRECTORY_SEPARATOR . 'home' . DIRECTORY_SEPARATOR . 'vagrant' . DIRECTORY_SEPARATOR . 'world')
         );
     }
 }

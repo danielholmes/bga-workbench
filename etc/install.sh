@@ -2,7 +2,7 @@
 
 # Settings
 PROJECT_NAME=$1
-HOME_DIR=/home/ubuntu
+HOME_DIR=/home/vagrant
 PROJECT_DIR=$HOME_DIR/$PROJECT_NAME
 
 # Make sure start in project directory
@@ -15,7 +15,7 @@ echo "PATH=\$PATH:$PROJECT_DIR/bin" >> "$HOME_DIR/.bashrc"
 apt-get update -y
 
 # PHP and packages
-apt-get install -y php7.0-cli php7.0-mbstring php7.0-dom php7.0-zip php7.0-mysql
+apt-get install -y unzip php7.0-cli php7.0-mbstring php7.0-dom php7.0-zip php7.0-mysql
 
 # MySQL
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password bgawb'
