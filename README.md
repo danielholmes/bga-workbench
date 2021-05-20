@@ -29,6 +29,14 @@ Via composer:
 composer require --dev dholmes/bga-workbench
 ```
 
+Via Docker:
+```bash
+docker build -t bgawb .
+alias bgawb="docker run --rm -v $PWD:/data -w /data bgawb"
+```
+(this last line should be set in your ~/.bashrc to keep the alias working in a new terminal)
+
+
 To set up your project to work with BGA Workbench you need to have a `bgaproject.yml` file in the root. To generate one 
 see the [`bgawb init` command](#initialise-bga-project).
 
