@@ -40,7 +40,7 @@ class APP_DbObject extends APP_Object
      * @param boolean $bSingleValue
      * @return array
      */
-    protected function getCollectionFromDB($sql, $bSingleValue = false)
+    protected static function getCollectionFromDB($sql, $bSingleValue = false)
     {
         $rows = self::getObjectListFromDB($sql);
         $result = array();
@@ -54,6 +54,19 @@ class APP_DbObject extends APP_Object
         }
 
         return $result;
+    }
+
+    /**
+     * @param $sql
+     * @return array
+     */
+    protected static function getNonEmptyCollectionFromDB($sql)
+    {
+        $rows = self::getCollectionFromDB($sql);
+        if (empty($rows)) {
+            throw new BgaSystemException('Expected collection to not be empty');
+        }
+        return $rows;
     }
 
     /**
@@ -93,6 +106,23 @@ class APP_DbObject extends APP_Object
             throw new \RuntimeException('Non unique result');
         }
         return $rows[0];
+    }
+
+    protected static function getObjectFromDB($sql)
+    {
+        $rows = self::getDbConnection()->fetchAllAssociative($sql);
+        if (empty($rows)) {
+            return null;
+        } elseif (count($rows) > 1) {
+            throw new \RuntimeException('More than one row returned. count: ' . count($rows));
+        }
+        return $rows[0];
+    }
+
+    protected static function escapeStringForDB($value)
+    {
+        $quoted = self::$connection->quote($value);
+        return substr($quoted, 1, -1);
     }
 
     /**

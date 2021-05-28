@@ -9,3 +9,8 @@ function totranslate($str)
 {
     return $str;
 }
+
+function bga_rand($min, $max)
+{
+    return rand($min, $max);
+}

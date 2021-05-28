@@ -87,6 +87,18 @@ abstract class Table extends APP_GameClass
         return true;
     }
 
+    private static $gameStateValues = [];
+
+    public static function setGameStateInitialValue($label, $value)
+    {
+        self::$gameStateValues[$label] = $value;
+    }
+
+    public static function getGameStateValue($label)
+    {
+        return self::$gameStateValues[$label];
+    }
+
     private function getStatTypeId($targetName)
     {
         include('stats.inc.php');
