@@ -1,5 +1,5 @@
 {
-  "name": "simple-composer-example",
+  "name": "dholmes/simplecomposerexample",
   "type": "project",
   "minimum-stability": "stable",
   "autoload": {
