@@ -57,6 +57,19 @@ class APP_DbObject extends APP_Object
     }
 
     /**
+     * @param $sql
+     * @return array
+     */
+    protected function getNonEmptyCollectionFromDB($sql)
+    {
+        $rows = self::getCollectionFromDB($sql);
+        if (empty($rows)) {
+            throw new BgaSystemException('Expected collection to not be empty');
+        }
+        return $rows;
+    }
+
+    /**
      * @param string $sql
      * @param boolean $bUniqueValue
      * @return array
@@ -93,6 +106,23 @@ class APP_DbObject extends APP_Object
             throw new \RuntimeException('Non unique result');
         }
         return $rows[0];
+    }
+
+    protected function getObjectFromDB($sql)
+    {
+        $rows = self::getDbConnection()->fetchAllAssociative($sql);
+        if (empty($rows)) {
+            return null;
+        } elseif (count($rows) > 1) {
+            throw new \RuntimeException('More than one row returned. count: ' . count($rows));
+        }
+        return $rows[0];
+    }
+
+    protected static function escapeStringForDB($string)
+    {
+        $quoted = self::$connection->quote($string);
+        return substr($quoted, 1, -1);
     }
 
     /**
