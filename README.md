@@ -195,3 +195,9 @@ vagrant up
 vagrant ssh
 composer test
 ```
+
+### Publishing a New Version
+
+ 1. Add a release/tag on github with the version number.
+ 2. Go to the packagist url and click "Update": <https://packagist.org/packages/dholmes/bga-workbench>. This should be 
+    done automatically though if just left.
