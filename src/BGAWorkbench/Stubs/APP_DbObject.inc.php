@@ -40,7 +40,7 @@ class APP_DbObject extends APP_Object
      * @param boolean $bSingleValue
      * @return array
      */
-    protected static function getCollectionFromDB($sql, $bSingleValue = false)
+    protected function getCollectionFromDB($sql, $bSingleValue = false)
     {
         $rows = self::getObjectListFromDB($sql);
         $result = array();
@@ -60,7 +60,7 @@ class APP_DbObject extends APP_Object
      * @param $sql
      * @return array
      */
-    protected static function getNonEmptyCollectionFromDB($sql)
+    protected function getNonEmptyCollectionFromDB($sql)
     {
         $rows = self::getCollectionFromDB($sql);
         if (empty($rows)) {
@@ -108,7 +108,7 @@ class APP_DbObject extends APP_Object
         return $rows[0];
     }
 
-    protected static function getObjectFromDB($sql)
+    protected function getObjectFromDB($sql)
     {
         $rows = self::getDbConnection()->fetchAllAssociative($sql);
         if (empty($rows)) {
@@ -119,9 +119,9 @@ class APP_DbObject extends APP_Object
         return $rows[0];
     }
 
-    protected static function escapeStringForDB($value)
+    protected static function escapeStringForDB($string)
     {
-        $quoted = self::$connection->quote($value);
+        $quoted = self::$connection->quote($string);
         return substr($quoted, 1, -1);
     }
 
