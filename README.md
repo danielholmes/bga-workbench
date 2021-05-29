@@ -1,6 +1,6 @@
 # BoardGameArena Workbench
 
-[![Build Status](https://travis-ci.org/danielholmes/bga-workbench.svg?branch=master)](https://travis-ci.org/danielholmes/bga-workbench)
+[![Build](https://github.com/danielholmes/bga-workbench/actions/workflows/build.yml/badge.svg)](https://github.com/danielholmes/bga-workbench/actions/workflows/build.yml)
 [![Latest Stable Version](https://img.shields.io/packagist/v/dholmes/bga-workbench.svg)](https://packagist.org/packages/dholmes/bga-workbench)
 
 A set of tools to work with [BoardGameArena](https://boardgamearena.com/) projects.
