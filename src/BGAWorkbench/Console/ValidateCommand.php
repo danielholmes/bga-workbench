@@ -5,8 +5,7 @@ namespace BGAWorkbench\Console;
 use BGAWorkbench\External\WorkbenchProjectConfigSerialiser;
 use BGAWorkbench\Project\Project;
 use BGAWorkbench\Project\WorkbenchProjectConfig;
-use BGAWorkbench\Validate\StateConfiguration;
-use Symfony\Component\Config\Definition\Processor;
+use BGAWorkbench\Validate\StateValidator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -117,33 +116,6 @@ HELP
      */
     private function validateStates(Project $project)
     {
-        require_once(__DIR__ . '/../Stubs/framework.php');
-        $variableName = 'machinestates';
-        $fileName = 'states.inc.php';
-        $states = $project->getFileVariableValue($fileName, $variableName)
-            ->getOrThrow(new \RuntimeException("Expect variable {$variableName} in {$fileName}"));
-
-        $processor = new Processor();
-        $validated = $processor->processConfiguration(new StateConfiguration(), [$states]);
-        $stateIds = array_keys($states);
-
-        F\each(
-            $validated,
-            function (array $state) use ($stateIds) {
-                if (!isset($state['transitions'])) {
-                    return;
-                }
-
-                $transitionToIds = array_values($state['transitions']);
-                $differentIds = array_diff($transitionToIds, $stateIds);
-                if (!empty($differentIds)) {
-                    $missingList = join(', ', $differentIds);
-                    $allList = join(', ', $stateIds);
-                    throw new \RuntimeException(
-                        "State {$state['name']} has transition to missing state ids {$missingList} / ({$allList})"
-                    );
-                }
-            }
-        );
+        (new StateValidator())->validateStates($project);
     }
 }
