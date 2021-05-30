@@ -176,12 +176,12 @@ class StateValidator
                 continue;
             }
 
-            $visitedMap[$nextStateId] = true;
             if (!array_key_exists($nextStateId, $states)) {
                 // Assumes that the transitions have been verified prior to this method being called.
                 continue;
             }
 
+            $visitedMap[$nextStateId] = true;
             $reachesGameEnd = $this->visitState($nextStateId, $states[$nextStateId], $states, $visitedMap);
             if ($reachesGameEnd === true) {
                 return true;
