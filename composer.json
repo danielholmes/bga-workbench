@@ -1,6 +1,6 @@
 {
   "name": "dholmes/bga-workbench",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "type": "library",
   "description": "BoardGameArena Workbench",
   "minimum-stability": "stable",
