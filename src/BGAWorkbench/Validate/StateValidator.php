@@ -2,6 +2,8 @@
 namespace BGAWorkbench\Validate;
 
 use BGAWorkbench\Project\Project;
+use ReflectionClass;
+use ReflectionException;
 use RuntimeException;
 use Symfony\Component\Config\Definition\Processor;
 use Functional as F;
@@ -52,6 +54,7 @@ class StateValidator
         $this->validateGameSetupState($states);
         $this->validateGameEndState($states);
         $this->validateGameSetupToEnd($states);
+        $this->validateActionAndArgsMethodExist($states, $project);
     }
 
     private function validateGameSetupState(array $states)
@@ -191,6 +194,54 @@ class StateValidator
 
         // we've looked at every transition and didn't find an end
         return false;
+    }
+
+    /**
+     * Verifies that every method defined in the state's "action" parameter has a corresponding action method in the
+     * class that extends "Table".
+     *
+     * @param array $states
+     * @param Project $project
+     */
+    private function validateActionAndArgsMethodExist(array $states, Project $project): void
+    {
+        $tableObj = $project->createGameTableInstance();
+        $reflectionTableObj = new ReflectionClass($tableObj);
+
+        foreach ($states as $stateId => $state) {
+            if ($stateId === self::GAME_SETUP_ID || $stateId === self::GAME_END_ID) {
+                // Skip the gameSetup and gameEnd states
+                continue;
+            }
+
+            if (array_key_exists('action', $state)) {
+                try {
+                    $reflectionActionMethod = $reflectionTableObj->getMethod($state['action']);
+                } catch (ReflectionException $exception) {
+                    throw new RuntimeException("Action {$state['action']} defined in state {$stateId} is not defined in Table. Ensure that the method is defined in {$project->getName()}.game.php.");
+                }
+                if (!$reflectionActionMethod->isPublic()) {
+                    throw new RuntimeException("Action {$state['action']} defined in state {$stateId} must be public. Ensure that the method is defined as 'public' in {$project->getName()}.game.php.");
+                }
+                if ($reflectionActionMethod->isAbstract()) {
+                    throw new RuntimeException("Action {$state['action']} defined in state {$stateId} cannot be abstract. Remove the 'abstract' modifier from the method in {$project->getName()}.game.php.");
+                }
+            }
+
+            if (array_key_exists('args', $state)) {
+                try {
+                    $reflectionActionMethod = $reflectionTableObj->getMethod($state['args']);
+                } catch (ReflectionException $exception) {
+                    throw new RuntimeException("Arguments {$state['args']} defined in state {$stateId} is not defined in Table. Ensure that the method is defined in {$project->getName()}.game.php.");
+                }
+                if (!$reflectionActionMethod->isPublic()) {
+                    throw new RuntimeException("Arguments {$state['args']} defined in state {$stateId} must be public. Ensure that the method is defined as 'public' in {$project->getName()}.game.php.");
+                }
+                if ($reflectionActionMethod->isAbstract()) {
+                    throw new RuntimeException("Arguments {$state['args']} defined in state {$stateId} cannot be abstract. Remove the 'abstract' modifier from the method in {$project->getName()}.game.php.");
+                }
+            }
+        }
     }
 
     private function getGameSetupStateStateExample(): string

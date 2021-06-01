@@ -37,7 +37,14 @@ class StateValidatorTest extends TestCase
         "description" => "",
         "type" => "game",
         "action" => "stBar",
-        "transitions" => array("repeat" => 10, "continue" => 99)
+        "transitions" => array("repeat" => 10, "continue" => 12, "end" => 99)
+    ),
+    12 => array(
+        "name" => "caz",
+        "description" => "",
+        "type" => "activeplayer",
+        "args" => "argCaz",
+        "transitions" => array("continue" => 99)
     ),
     99 => array(
         "name" => "gameEnd",
@@ -49,7 +56,7 @@ class StateValidatorTest extends TestCase
 );
 END;
 
-        $projectDirectory = $this->createTestProject($statesIncPhpContents);
+        $projectDirectory = $this->createTestProject('valid', $statesIncPhpContents);
         $project = new Project($projectDirectory->getFileInfo(), 'valid');
         (new StateValidator())->validateStates($project);
     }
@@ -79,8 +86,8 @@ END;
     )
 );
 END;
-        $projectDirectory = $this->createTestProject($statesIncPhpContents);
-        $project = new Project($projectDirectory->getFileInfo(), 'missing-game-setup');
+        $projectDirectory = $this->createTestProject('missinggamesetup', $statesIncPhpContents);
+        $project = new Project($projectDirectory->getFileInfo(), 'missinggamesetup');
         (new StateValidator())->validateStates($project);
     }
 
@@ -110,8 +117,8 @@ END;
 );
 END;
 
-        $projectDirectory = $this->createTestProject($statesIncPhpContents);
-        $project = new Project($projectDirectory->getFileInfo(), 'missing-game-end');
+        $projectDirectory = $this->createTestProject('missinggameend', $statesIncPhpContents);
+        $project = new Project($projectDirectory->getFileInfo(), 'missinggameend');
         (new StateValidator())->validateStates($project);
     }
 
@@ -150,8 +157,8 @@ END;
 );
 END;
 
-        $projectDirectory = $this->createTestProject($statesIncPhpContents);
-        $project = new Project($projectDirectory->getFileInfo(), 'looping');
+        $projectDirectory = $this->createTestProject('invalidstate', $statesIncPhpContents);
+        $project = new Project($projectDirectory->getFileInfo(), 'invalidstate');
         (new StateValidator())->validateStates($project);
     }
 
@@ -197,8 +204,8 @@ END;
 );
 END;
 
-        $projectDirectory = $this->createTestProject($statesIncPhpContents);
-        $project = new Project($projectDirectory->getFileInfo(), 'looping');
+        $projectDirectory = $this->createTestProject('doesnotend', $statesIncPhpContents);
+        $project = new Project($projectDirectory->getFileInfo(), 'doesnotend');
         (new StateValidator())->validateStates($project);
     }
 
@@ -244,18 +251,149 @@ END;
 );
 END;
 
-        $projectDirectory = $this->createTestProject($statesIncPhpContents);
+        $projectDirectory = $this->createTestProject('looping', $statesIncPhpContents);
         $project = new Project($projectDirectory->getFileInfo(), 'looping');
         (new StateValidator())->validateStates($project);
     }
 
-    private function createTestProject(string $statesIncPhpContents): WorkingDirectory
+    /**
+     * Verifies that an exception is thrown when state defines an unknown function for "action" property.
+     */
+    public function testUnknownMethodInAction(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Action stUnknown defined in state 11 is not defined in Table.');
+
+        $statesIncPhpContents = <<<END
+<?php
+\$machinestates = array(
+    1 => array(
+        "name" => "gameSetup",
+        "description" => "",
+        "type" => "manager",
+        "action" => "stGameSetup",
+        "transitions" => array("" => 10)
+    ),
+    10 => array(
+        "name" => "foo",
+        "description" => "",
+        "type" => "game",
+        "action" => "stFoo",
+        "transitions" => array("continue" => 11)
+    ),
+    11 => array(
+        "name" => "unknown",
+        "description" => "",
+        "type" => "game",
+        "action" => "stUnknown",  // intentionally set to an unknown method
+        "transitions" => array("continue" => 99)
+    ),
+    99 => array(
+        "name" => "gameEnd",
+        "description" => "End of game",
+        "type" => "manager",
+        "action" => "stGameEnd",
+        "args" => "argGameEnd"
+    )
+);
+END;
+
+        $projectDirectory = $this->createTestProject('unknownaction', $statesIncPhpContents);
+        $project = new Project($projectDirectory->getFileInfo(), 'unknownaction');
+        (new StateValidator())->validateStates($project);
+    }
+
+    /**
+     * Verifies that an exception is thrown when state defines an unknown function for "args" property.
+     */
+    public function testUnknownMethodInArgs(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Arguments argFoo defined in state 10 is not defined in Table.');
+
+        $statesIncPhpContents = <<<END
+<?php
+\$machinestates = array(
+    1 => array(
+        "name" => "gameSetup",
+        "description" => "",
+        "type" => "manager",
+        "action" => "stGameSetup",
+        "transitions" => array("" => 10)
+    ),
+    10 => array(
+        "name" => "foo",
+        "description" => "",
+        "type" => "activeplayer",
+        "args" => "argFoo",
+        "transitions" => array("continue" => 99)
+    ),
+    99 => array(
+        "name" => "gameEnd",
+        "description" => "End of game",
+        "type" => "manager",
+        "action" => "stGameEnd",
+        "args" => "argGameEnd"
+    )
+);
+END;
+
+        $projectDirectory = $this->createTestProject('unknownargs', $statesIncPhpContents);
+        $project = new Project($projectDirectory->getFileInfo(), 'unknownargs');
+        (new StateValidator())->validateStates($project);
+    }
+
+    private function createTestProject(string $projectName, string $statesIncPhpContents, ?string $gamePhpContents = null): WorkingDirectory
     {
         $workingDir = WorkingDirectory::createTemp();
         if (!file_put_contents(join(DIRECTORY_SEPARATOR, [$workingDir->getPathname(), 'states.inc.php']), $statesIncPhpContents)) {
-            throw new \RuntimeException("Failed to write states.inc.php");
+            throw new RuntimeException("Failed to write states.inc.php");
+        }
+
+        if (is_null($gamePhpContents)) {
+            $gamePhpContents = $this->createValidGamePhpContents($projectName);
+        }
+        if (!file_put_contents(join(DIRECTORY_SEPARATOR, [$workingDir->getPathname(), $projectName . '.game.php']), $gamePhpContents)) {
+            throw new RuntimeException("Failed to write {$projectName}.game.php");
         }
 
         return $workingDir;
+    }
+
+    private function createValidGamePhpContents(string $projectName): string
+    {
+        return <<<END
+<?php
+require_once(APP_GAMEMODULE_PATH . 'module/table/table.game.php');
+
+class {$projectName}Example extends Table
+{
+    protected function getGameName()
+    {
+        return $projectName;
+    }
+    protected function setupNewGame(\$players, \$options = [])
+    {
+    }   
+    public function upgradeTableDb(\$from_version)
+    {
+    }
+    
+    public function stStuff()
+    {
+    }
+    public function stFoo()
+    {
+    }
+    public function stBar()
+    {
+    }
+    public function argCaz()
+    {
+        return array();
+    }
+}
+END;
+
     }
 }
